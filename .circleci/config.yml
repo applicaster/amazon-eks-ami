@@ -1,0 +1,35 @@
+version: 2
+references:
+  JOB_DEFAULTS: &JOB_DEFAULTS
+    machine: true
+    working_directory: ~/amazon-eks-ami
+  MODIFY_BASH_ENV: &MODIFY_BASH_ENV
+      run: echo 'export PATH=$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH' >> $BASH_ENV
+  RESTORE_ASDF_CACHE: &RESTORE_ASDF_CACHE
+    restore_cache: { key: "v1-asdf-" }
+  SAVE_ASDF_CACHE: &SAVE_ASDF_CACHE
+    save_cache:
+        key: v1-asdf-{{ checksum ".tool-versions" }}
+        paths:
+          - ~/.asdf
+  INSTALL_ASDF:
+    run:
+      name: "asdf install"
+      command: |
+        set -e
+        which asdf || git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+        (asdf plugin-list | grep packer) || asdf plugin-add packer
+        asdf install
+jobs:
+  build-ami:
+    <<: *JOB_DEFAULTS
+    steps:
+      - checkout
+      - *MODIFY_BASH_ENV
+      - *RESTORE_ASDF_CACHE
+      - *INSTALL_ASDF
+      - *SAVE_ASDF_CACHE
+      - run:
+          name: Build AMI
+          command: |
+            packer build eks-worker-al2.json
