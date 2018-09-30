@@ -12,7 +12,7 @@ references:
         key: v1-asdf-{{ checksum ".tool-versions" }}
         paths:
           - ~/.asdf
-  INSTALL_ASDF:
+  INSTALL_ASDF: &INSTALL_ASDF
     run:
       name: "asdf install"
       command: |
