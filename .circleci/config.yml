@@ -32,7 +32,12 @@ jobs:
       - run:
           name: Build AMI
           command: |
-            packer build eks-worker-al2.json
+            packer build \
+              --var aws_region="us-east-1" \
+              --var binary_bucket_name="infra.applicaster.com" \
+              --var binary_bucket_region="us-east-1" \
+              --var binary_bucket_path="amazon-eks-ami/images" \
+              eks-worker-al2.json
 
 workflows:
   version: 2
