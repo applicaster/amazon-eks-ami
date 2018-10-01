@@ -38,6 +38,7 @@
           "delete_on_termination": true
         }
       ],
+      "associate_public_ip_address": true,
       "ssh_username": "ec2-user",
       "ssh_pty": true,
       "encrypt_boot": "{{user `encrypted`}}",
