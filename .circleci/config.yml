@@ -37,6 +37,7 @@ jobs:
               --var binary_bucket_name="infra.applicaster.com" \
               --var binary_bucket_region="us-east-1" \
               --var binary_bucket_path="amazon-eks-ami/images" \
+              --var subnet_id="subnet-c7da7f9c" \
               eks-worker-al2.json
 
 workflows:
