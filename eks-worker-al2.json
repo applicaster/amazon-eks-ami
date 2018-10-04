@@ -1,13 +1,14 @@
 {
   "variables": {
     "aws_region": "us-west-2",
-    "ami_name": "amazon-eks-node-{{timestamp}}",
+    "ami_name": "amazon-eks-node-{{isotime \"2006-01-02\"}}-{{timestamp}}",
     "binary_bucket_name": "amazon-eks",
     "binary_bucket_region": "us-west-2",
     "binary_bucket_path": "1.10.3/2018-07-26/bin/linux/amd64",
     "creator": "{{env `USER`}}",
     "instance_type": "m4.large",
     "source_ami_id": "",
+    "subnet_id": "",
     "encrypted": "false",
     "kms_key_id": ""
   },
@@ -37,6 +38,7 @@
           "delete_on_termination": true
         }
       ],
+      "associate_public_ip_address": true,
       "ssh_username": "ec2-user",
       "ssh_pty": true,
       "encrypt_boot": "{{user `encrypted`}}",
@@ -44,6 +46,7 @@
       "run_tags": {
           "creator": "{{user `creator`}}"
       },
+      "subnet_id": "{{user `subnet_id`}}",
       "tags": {
           "created": "{{timestamp}}"
       },
