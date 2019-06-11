@@ -2,7 +2,7 @@
   "variables": {
     "kubernetes_version": "1.12",
     "aws_region": "us-west-2",
-    "ami_name": "amazon-eks-node-{{timestamp}}",
+    "ami_name": "amazon-eks-node-{{isotime \"2006-01-02\"}}-{{timestamp}}",
     "binary_bucket_name": "amazon-eks",
     "binary_bucket_region": "us-west-2",
     "binary_bucket_path": "",
@@ -12,6 +12,7 @@
     "source_ami_id": "",
     "source_ami_owners": "137112412989",
     "source_ami_filter_name": "amzn2-ami-minimal-hvm-*",
+    "subnet_id": "",
     "encrypted": "false",
     "kms_key_id": "",
     "cni_version": "v0.6.0",
@@ -54,6 +55,7 @@
           "delete_on_termination": true
         }
       ],
+      "associate_public_ip_address": true,
       "ssh_username": "ec2-user",
       "ssh_pty": true,
       "encrypt_boot": "{{user `encrypted`}}",
@@ -61,6 +63,7 @@
       "run_tags": {
           "creator": "{{user `creator`}}"
       },
+      "subnet_id": "{{user `subnet_id`}}",
       "tags": {
           "created": "{{timestamp}}",
           "docker_version": "{{ user `docker_version`}}",
